@@ -1,45 +1,35 @@
-<x-admin-layout>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold text-gray-800">Order #{{ $order->id }} Details</h2>
-                    <a href="{{ route('admin.orders.index') }}" class="text-indigo-600 hover:text-indigo-900">Back to List</a>
+<x-public-layout>
+    <div class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                <!-- Image -->
+                <div class="bg-gray-50 overflow-hidden shadow-2xl p-4">
+                    <img src="{{ Str::startsWith($product->image, 'products/') ? asset('storage/' . $product->image) : asset('images/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-auto object-cover border border-gray-100">
                 </div>
 
-                <div class="mb-8 grid grid-cols-2 gap-4">
-                    <div>
-                        <h3 class="text-lg font-bold text-gray-700">Order Info</h3>
-                        <p><strong>Date:</strong> {{ $order->ordered_date }}</p>
-                        <p><strong>Status:</strong> <span class="uppercase font-bold">{{ $order->status }}</span></p>
-                        <p><strong>Total:</strong> LKR {{ number_format($order->total_amount, 2) }}</p>
+                <!-- Details -->
+                <div class="flex flex-col justify-center">
+                    <div class="mb-8">
+                        <span class="text-gold-600 uppercase tracking-[0.3em] text-sm font-black">Exquisite Collection</span>
+                        <h1 class="text-5xl md:text-6xl font-serif font-black text-charcoal-900 mt-4 mb-6 leading-tight">{{ $product->name }}</h1>
+                        <p class="text-4xl font-black text-gold-600">LKR {{ number_format($product->price, 2) }}</p>
                     </div>
-                </div>
-
-                <h3 class="text-lg font-bold text-gray-700 mb-4">Order Items (Vulnerable Fetch)</h3>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200 border">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Item ID</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Product ID</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Quantity</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Price</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach($orderItems as $item)
-                            <tr>
-                                <td class="px-6 py-4">{{ $item->id }}</td>
-                                <td class="px-6 py-4">{{ $item->product_id }}</td>
-                                <td class="px-6 py-4">{{ $item->quantity }}</td>
-                                <td class="px-6 py-4">LKR {{ number_format($item->price, 2) }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    
+                    <div class="prose prose-xl text-gray-700 mb-10 border-t-2 border-b-2 border-gold-100 py-8 leading-relaxed italic">
+                        <p>{{ $product->description }}</p>
+                    </div>
+                    <div class="mt-8">
+                        <a href="{{ route('add.to.cart', $product->id) }}" class="inline-block bg-gold-500 text-white px-10 py-3 text-sm uppercase tracking-widest font-bold hover:bg-charcoal-900 hover:text-white transition duration-300 shadow-lg text-center rounded-sm">
+                            Add to Cart
+                        </a>
+                    </div>
+                    
+                    <div class="mt-8 flex items-center space-x-4 text-sm text-gray-500">
+                        <div class="flex items-center"><svg class="w-5 h-5 mr-2 text-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Authentic</div>
+                        <div class="flex items-center"><svg class="w-5 h-5 mr-2 text-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Long Lasting</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</x-admin-layout>
+</x-public-layout>
